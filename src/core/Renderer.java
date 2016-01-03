@@ -11,14 +11,14 @@ import java.awt.image.BufferedImage;
 public class Renderer {
   
   private int width, height;
-  private BufferedImage image;
+  private BufferedImage backBuffer;
   private Graphics2D g;
   
   public Renderer(GameContainer gc) {
     width = gc.getWidth();
     height = gc.getHeight();
-    image = gc.getWindow().getImage();
-    g = (Graphics2D) image.getGraphics();
+    backBuffer = gc.getWindow().getBuffer();
+    g = (Graphics2D) backBuffer.getGraphics();
 
     RenderingHints rh = new RenderingHints(null);
     rh.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

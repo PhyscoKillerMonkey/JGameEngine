@@ -12,7 +12,7 @@ public class Input implements KeyListener {
   
   public Input(GameContainer gc) {
     this.gc = gc;
-    gc.getWindow().getCanvas().addKeyListener(this);
+    gc.getWindow().getFrame().addKeyListener(this);
   }
   
   public void update() {

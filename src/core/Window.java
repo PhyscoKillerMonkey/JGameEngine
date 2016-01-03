@@ -1,8 +1,8 @@
 package core;
 
-import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
@@ -11,45 +11,45 @@ import javax.swing.JFrame;
 public class Window {
 
   private JFrame frame;
-  private Canvas canvas;
-  private BufferedImage image;
-  private Graphics2D g;
+  private Insets insets;
+  private BufferedImage backBuffer;
+  private Graphics2D sg;
   private BufferStrategy bs;
+  private int width; private int height;
   
   public Window(GameContainer gc) {
-    image = new BufferedImage(gc.getWidth(), gc.getHeight(), BufferedImage.TYPE_INT_RGB);
-    
-    canvas = new Canvas();
-    canvas.setPreferredSize(new Dimension(gc.getWidth(), gc.getHeight()));
+    backBuffer = new BufferedImage(gc.getWidth(), gc.getHeight(), BufferedImage.TYPE_INT_RGB);
     
     frame = new JFrame(gc.getTitle());
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.add(canvas);
-    frame.pack();
+    
+    // Add insets to get the correct frame size
+    insets = frame.getInsets();
+    width = insets.left + gc.getWidth() + insets.right;
+    height = insets.top + gc.getHeight() + insets.bottom;
+    frame.setSize(new Dimension(width, height));
+    
     frame.setVisible(true);
     
-    canvas.createBufferStrategy(2);
-    bs = canvas.getBufferStrategy();
-    g = (Graphics2D) bs.getDrawGraphics();
+    sg = (Graphics2D) frame.getGraphics();
   }
   
   public void update() {
-    g.drawImage(image, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
-    bs.show();
+    sg.drawImage(backBuffer, 0, 0, width, height, null);
   }
   
   public void cleanUp() {
-    g.dispose();
+    sg.dispose();
     bs.dispose();
-    image.flush();
+    backBuffer.flush();
     frame.dispose();
   }
 
-  public Canvas getCanvas() {
-    return canvas;
+  public BufferedImage getBuffer() {
+    return backBuffer;
   }
-
-  public BufferedImage getImage() {
-    return image;
+  
+  public JFrame getFrame() {
+    return frame;
   }
 }

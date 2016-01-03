@@ -1,6 +1,5 @@
 package tests;
 
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -8,7 +7,6 @@ import javax.imageio.ImageIO;
 
 import core.AbstractGame;
 import core.GameContainer;
-import core.Input;
 import core.Renderer;
 
 public class EngineTest extends AbstractGame {
@@ -25,8 +23,9 @@ public class EngineTest extends AbstractGame {
   @Override
   public void init(GameContainer gc) {
     try {
-      img = ImageIO.read(getClass().getResourceAsStream("/sprites/enemyBlack3.png"));
+      img = ImageIO.read(getClass().getResourceAsStream("tankBeige.png"));
     } catch (IOException e) {
+      System.out.println("Something went wrong");
       e.printStackTrace();
     }
   }
