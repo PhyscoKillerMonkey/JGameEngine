@@ -23,7 +23,7 @@ public class EngineTest extends AbstractGame {
   @Override
   public void init(GameContainer gc) {
     try {
-      img = ImageIO.read(getClass().getResourceAsStream("tankBeige.png"));
+      img = ImageIO.read(getClass().getResourceAsStream("/sprites/enemyBlack3.png"));
     } catch (IOException e) {
       System.out.println("Something went wrong");
       e.printStackTrace();
