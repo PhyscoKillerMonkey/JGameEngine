@@ -48,13 +48,13 @@ public class Player extends Entity {
     
     move(gc, dt);
     
-    if (x < -width || x > gc.getWidth()) { x = -width; }
-    if (y < -height || y > gc.getHeight()) { y = -height; }
-    
     if (System.currentTimeMillis() - invunerableStart > invunerableLength) {
       invunerable = false;
       render = true;
     }
+    
+    gc.setScreenOffX(-gc.getWidth() / 2 + x + width / 2);
+    gc.setScreenOffY(-gc.getHeight() / 2 + y + height / 2);
     
     updateComponents(gc, dt);
   }
@@ -66,7 +66,7 @@ public class Player extends Entity {
       render = !render;
     }
     if (render) {
-      r.drawImage(x, y, rotation, getImg());
+      r.drawImage(gc, x, y, rotation, getImg());
     }
     
     renderComponents(gc, r);

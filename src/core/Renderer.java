@@ -28,31 +28,33 @@ public class Renderer {
     g.setRenderingHints(rh);
   }
   
-  public void fillRect(double x, double y, int width, int height, Color color) {
+  public void fillRect(GameContainer gc, double x, double y, int width, int height, Color color) {
     g.setColor(color);
-    g.fill(new Rectangle2D.Double(x, y, width, height));
+    g.fill(new Rectangle2D.Double(x-gc.getScreenOffX(), y-gc.getScreenOffY(), width, height));
   }
   
-  public void drawImage(double x, double y, double rotation, Image img) {
+  public void drawImage(GameContainer gc, double x, double y, double rotation, Image img) {
     AffineTransform t = new AffineTransform();
-    t.translate(x, y);
+    t.translate(x-gc.getScreenOffX(), y-gc.getScreenOffY());
     t.rotate(rotation, img.getWidth(null)/2, img.getHeight(null)/2);
     g.drawImage(img, t, null);
   }
   
-  public void drawImage(double x, double y, Image img) {
-    drawImage(x, y, 0, img);
+  public void drawImage(GameContainer gc, double x, double y, Image img) {
+    drawImage(gc, x, y, 0, img);
   }
   
-  public void drawEllipse(double x, double y, double width, double height, Color color) {
+  public void drawEllipse(GameContainer gc, double x, double y, double width, double height, Color color) {
     g.setColor(color);
-    g.draw(new Ellipse2D.Double(x, y, width, height));
+    g.draw(new Ellipse2D.Double(x-gc.getScreenOffX(), y-gc.getScreenOffY(), width, height));
   }
   
-  public void drawCross(double x, double y, double width, double height, Color color) {
+  public void drawCross(GameContainer gc, double x, double y, double width, double height, Color color) {
     g.setColor(color);
-    g.draw(new Line2D.Double(x, y, x+width, y+height));
-    g.draw(new Line2D.Double(x, y+height, x+width, y));
+    g.draw(new Line2D.Double(x-gc.getScreenOffX(), y-gc.getScreenOffY(), 
+        x-gc.getScreenOffX()+width, y-gc.getScreenOffY()+height));
+    g.draw(new Line2D.Double(x-gc.getScreenOffX(), y+height-gc.getScreenOffY(), 
+        x-gc.getScreenOffX()+width, y-gc.getScreenOffY()));
   }
 
   public void clear() {

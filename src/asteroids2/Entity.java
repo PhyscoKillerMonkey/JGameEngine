@@ -39,7 +39,7 @@ public abstract class Entity extends GameObject {
 
   @Override
   public void render(GameContainer gc, Renderer r) {
-    r.drawImage(x, y, rotation, img);
+    r.drawImage(gc, x, y, rotation, img);
     renderComponents(gc, r);
   }
 

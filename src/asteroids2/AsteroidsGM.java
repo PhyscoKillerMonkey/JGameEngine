@@ -13,7 +13,7 @@ public class AsteroidsGM extends AbstractGame {
   
   @Override
   public void init(GameContainer gc) {
-    push(new PlayState());
+    push(new PlayState(gc));
   }
 
   @Override

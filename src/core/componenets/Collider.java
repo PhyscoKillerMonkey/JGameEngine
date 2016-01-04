@@ -42,10 +42,10 @@ public class Collider extends Component {
   @Override
   public void render(GameContainer gc, Renderer r) {
     if (gc.getDebug() && type == "circle") {
-      r.drawEllipse(x-radius, y-radius, radius*2, radius*2, new Color(100, 255, 100));
+      r.drawEllipse(gc, x-radius, y-radius, radius*2, radius*2, new Color(100, 255, 100));
     } else if (gc.getDebug() && type == "point") {
       double s = Math.max(obj.getWidth(), obj.getHeight()) * 0.75;
-      r.drawCross(x-s/2, y-s/2, s, s, new Color(100, 255, 100));
+      r.drawCross(gc, x-s/2, y-s/2, s, s, new Color(100, 255, 100));
     }
   }
   

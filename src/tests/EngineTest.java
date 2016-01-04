@@ -40,6 +40,6 @@ public class EngineTest extends AbstractGame {
 
   @Override
   public void render(GameContainer gc, Renderer r) {
-    r.drawImage(x, y, 2, img);
+    r.drawImage(gc, x, y, 2, img);
   }
 }

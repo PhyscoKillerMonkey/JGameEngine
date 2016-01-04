@@ -14,6 +14,7 @@ public class GameContainer implements Runnable {
   private Physics physics;
   
   private int width = 640, height = 480;
+  private double screenOffX = 0, screenOffY = 0;
   private double scale = 1;
   private String title = "JGameEngine";
   
@@ -173,5 +174,21 @@ public class GameContainer implements Runnable {
   
   public boolean getDebug() {
     return debug;
+  }
+
+  public double getScreenOffX() {
+    return screenOffX;
+  }
+
+  public void setScreenOffX(double screenOffX) {
+    this.screenOffX = screenOffX;
+  }
+
+  public double getScreenOffY() {
+    return screenOffY;
+  }
+
+  public void setScreenOffY(double screenOffY) {
+    this.screenOffY = screenOffY;
   }
 }
