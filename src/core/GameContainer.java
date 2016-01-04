@@ -1,5 +1,9 @@
 package core;
 
+import java.awt.event.KeyEvent;
+
+import core.componenets.Physics;
+
 public class GameContainer implements Runnable {
 
   private Thread thread;
@@ -7,6 +11,7 @@ public class GameContainer implements Runnable {
   private Window window;
   private Renderer renderer;
   private Input input;
+  private Physics physics;
   
   private int width = 640, height = 480;
   private double scale = 1;
@@ -14,8 +19,7 @@ public class GameContainer implements Runnable {
   
   private boolean isRunning = false;
   private double frameLength = 1.0 / 60.0;
-  //The number of draws that can be skipped in a row
-  private int maxSkips = 5; 
+  private boolean debug = false;
   
   public GameContainer(AbstractGame game) {
     this.game = game;
@@ -28,6 +32,7 @@ public class GameContainer implements Runnable {
       window = new Window(this);
       renderer = new Renderer(this);
       input = new Input(this);
+      physics = new Physics();
       
       thread = new Thread(this);
       thread.run();
@@ -40,6 +45,8 @@ public class GameContainer implements Runnable {
   
   public void run() {
     isRunning = true;
+    
+    boolean lockFPS = true;
     
     // Times are in seconds
     double firstTime = 0;
@@ -57,102 +64,58 @@ public class GameContainer implements Runnable {
     game.init(this);
     
     while(isRunning) {
-      // If true only renders if there has been an update
-      // If false render FPS is unlocked
-      boolean shouldRender = true;
+      boolean shouldRender = !lockFPS;
       
       firstTime = System.nanoTime() / 1000000000.0;
-      frameTime += firstTime - lastTime;
+      passedTime = firstTime - lastTime;
       lastTime = firstTime;
       
-      input.update();
-      game.update(this, frameLength);
-      ticks++;
+      timeLeft += passedTime;
+      frameTime += passedTime;
       
-      renderer.clear();
-      game.render(this, renderer);
-      window.update();
-      frames++;
-      
-      passedTime = (System.nanoTime() / 1000000000.0) - firstTime;
-      // The time remaining in the frame
-      timeLeft = frameLength - passedTime;
-      if (timeLeft * 1000 > 16) {
-        System.out.println(timeLeft * 1000);
-      }
-      
-      //System.out.println((int)(firstTime*1000) + " " + passedTime + " " + unprocessedTime);
-      //System.out.println(unprocessedTime - frameLength);
-      //System.out.println(frameTime);
-      
-      // If we are ahead then sleep
-      if (timeLeft > 0) {
-        try {
-          Thread.sleep((long) (timeLeft * 1000));
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-      }
-      // If we are behind, do extra updates till we are good again
-      int skippedDraws = 0;
-      while (timeLeft < 0 && skippedDraws < maxSkips) {
-        input.update();
-        game.update(this, frameLength);
-        
-        skippedDraws++;
-        ticks++;
-        
-        timeLeft += frameLength;
-      }
-      
-      // If 1 seconds has passed since the last FPS update
-      if (frameTime >= 1) {
-        frameTime = 0;
-        fps = frames;
-        frames = 0;
-        tps = ticks;
-        ticks = 0;
-        System.out.println("FPS: " + fps + " TPS: " + tps);
-      }
-      
-      /*// We are into the next frame, do updates and stuff
       while (timeLeft >= frameLength) {
-        //System.out.println("Update");
+        if (input.isKeyPressed(KeyEvent.VK_1)) {
+          System.out.println("(Un)locking framerate");
+          lockFPS = !lockFPS;
+        }
+        if (input.isKeyPressed(KeyEvent.VK_2)) {
+          System.out.println("Enabling debug mode");
+          debug = !debug;
+        }
         
         input.update();
-        game.update(this, frameLength);
+        game.update(this, timeLeft);
+        physics.update();
         
-        shouldRender = true;
         timeLeft -= frameLength;
+        shouldRender = true;
         ticks++;
-        
-        if (frameTime >= 1) {
-          frameTime = 0;
-          fps = frames;
-          frames = 0;
-          tps = ticks;
-          ticks = 0;
-          System.out.println("FPS: " + fps + " TPS: " + tps);
-        }
       }
       
       if (shouldRender) {
-        //System.out.println("Render");
-        
         renderer.clear();
         game.render(this, renderer);
         window.update();
-        
         frames++;
       } else {
-        // We are in the same frame, sleep until we are finished
-        //System.out.println("Sleeping");
         try {
-          Thread.sleep((long)(timeLeft * 1000));
+          Thread.sleep(1);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-      }*/
+      }
+      
+      if (frameTime >= 1) {
+        frameTime = 0;
+        fps = frames;
+        tps = ticks;
+        frames = 0;
+        ticks = 0;
+        
+        if (debug) {
+          System.out.println("FPS " + fps + " TPS " + tps);
+        }
+      }
     }
   }
   
@@ -194,5 +157,21 @@ public class GameContainer implements Runnable {
 
   public Window getWindow() {
     return window;
+  }
+
+  public AbstractGame getGame() {
+    return game;
+  }
+
+  public Input getInput() {
+    return input;
+  }
+
+  public Physics getPhysics() {
+    return physics;
+  }
+  
+  public boolean getDebug() {
+    return debug;
   }
 }

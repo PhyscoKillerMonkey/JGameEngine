@@ -7,27 +7,27 @@ public class Input implements KeyListener {
 
   private GameContainer gc;
   
-  private static boolean[] keys = new boolean[256];
-  private static boolean[] keysLast = new boolean[256];
+  private boolean[] keys = new boolean[256];
+  private boolean[] keysLast = new boolean[256];
   
   public Input(GameContainer gc) {
     this.gc = gc;
-    gc.getWindow().getFrame().addKeyListener(this);
+    this.gc.getWindow().getFrame().addKeyListener(this);
   }
   
   public void update() {
     keysLast = keys.clone();
   }
   
-  public static boolean isKeyDown(int keyCode) {
+  public boolean isKeyDown(int keyCode) {
     return keys[keyCode];
   }
   
-  public static boolean isKeyPressed(int keyCode) {
+  public boolean isKeyPressed(int keyCode) {
     return keys[keyCode] && !keysLast[keyCode];
   }
   
-  public static boolean isKeyReleased(int keyCode) {
+  public boolean isKeyReleased(int keyCode) {
     return !keys[keyCode] && keysLast[keyCode];
   }
   

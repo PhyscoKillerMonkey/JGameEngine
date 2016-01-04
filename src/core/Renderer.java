@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -40,6 +42,17 @@ public class Renderer {
   
   public void drawImage(double x, double y, Image img) {
     drawImage(x, y, 0, img);
+  }
+  
+  public void drawEllipse(double x, double y, double width, double height, Color color) {
+    g.setColor(color);
+    g.draw(new Ellipse2D.Double(x, y, width, height));
+  }
+  
+  public void drawCross(double x, double y, double width, double height, Color color) {
+    g.setColor(color);
+    g.draw(new Line2D.Double(x, y, x+width, y+height));
+    g.draw(new Line2D.Double(x, y+height, x+width, y));
   }
 
   public void clear() {

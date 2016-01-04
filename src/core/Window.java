@@ -1,6 +1,5 @@
 package core;
 
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.image.BufferStrategy;
@@ -24,10 +23,13 @@ public class Window {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
     // Add insets to get the correct frame size
+    frame.pack();
     insets = frame.getInsets();
-    width = insets.left + gc.getWidth() + insets.right;
-    height = insets.top + gc.getHeight() + insets.bottom;
-    frame.setSize(new Dimension(width, height));
+    System.out.println(insets);
+    width = gc.getWidth();
+    height = gc.getHeight();
+    frame.setSize(insets.left + width + insets.right, 
+        insets.top + height + insets.bottom);
     
     frame.setVisible(true);
     
@@ -35,7 +37,7 @@ public class Window {
   }
   
   public void update() {
-    sg.drawImage(backBuffer, 0, 0, width, height, null);
+    sg.drawImage(backBuffer, insets.left, insets.top, width, height, null);
   }
   
   public void cleanUp() {
