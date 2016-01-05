@@ -3,6 +3,7 @@ package core;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.io.PrintStream;
 
 import core.componenets.Physics;
 
@@ -36,6 +37,20 @@ public class GameContainer implements Runnable {
       renderer = new Renderer(this);
       input = new Input(this);
       physics = new Physics();
+      
+      // Custom System.out.println
+      PrintStream stream = new PrintStream(System.out) {
+        public void println(String s) {
+          String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
+          String className = fullClassName.substring(fullClassName.lastIndexOf(".")+1);
+          String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+          int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
+          super.println(className + "-" + methodName + " @ " + lineNumber + ": " + s);
+        }
+      };
+      System.setOut(stream);
+      
+      System.out.print("Hello there");
       
       thread = new Thread(this);
       thread.run();
