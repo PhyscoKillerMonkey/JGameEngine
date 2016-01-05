@@ -73,4 +73,24 @@ public class Renderer {
   public void clear() {
     g.clearRect(0, 0, width, height);
   }
+
+  public void setWidth(GameContainer gc, int width) {
+    this.width = width;
+    backBuffer = gc.getWindow().getBuffer();
+    g = (Graphics2D) backBuffer.getGraphics();
+    RenderingHints rh = new RenderingHints(null);
+    rh.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+    g.setRenderingHints(rh);
+  }
+
+  public void setHeight(GameContainer gc, int height) {
+    this.height = height;
+    backBuffer = gc.getWindow().getBuffer();
+    g = (Graphics2D) backBuffer.getGraphics();
+    RenderingHints rh = new RenderingHints(null);
+    rh.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+    g.setRenderingHints(rh);
+  }
 }

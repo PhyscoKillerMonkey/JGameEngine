@@ -22,6 +22,14 @@ public class ObjectManager {
     return null;
   }
   
+  public int numObjects() {
+    return objects.size();
+  }
+  
+  public GameObject get(int i) {
+    return objects.get(i);
+  }
+  
   public void updateObjects(GameContainer gc, double dt) {
     for (int i = objects.size() - 1; i >= 0; i--) {
       objects.get(i).update(gc, dt);

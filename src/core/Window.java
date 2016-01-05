@@ -21,6 +21,7 @@ public class Window {
     
     frame = new JFrame(gc.getTitle());
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setResizable(false);
     
     // Add insets to get the correct frame size
     frame.pack();
@@ -56,5 +57,19 @@ public class Window {
 
   public Insets getInsets() {
     return insets;
+  }
+
+  public void setWidth(int width) {
+    this.width = width;
+    frame.setSize(insets.left + width + insets.right, 
+        insets.top + height + insets.bottom);
+    backBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+  }
+
+  public void setHeight(int height) {
+    this.height = height;
+    frame.setSize(insets.left + width + insets.right, 
+        insets.top + height + insets.bottom);
+    backBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
   }
 }

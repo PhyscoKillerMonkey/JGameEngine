@@ -18,9 +18,13 @@ public class PlayState extends State {
   private ObjectManager manager;
   private BufferedImage bg;
   private int stageW, stageH;
+  private long lastSpawn;
 
   public PlayState(GameContainer gc) {
     manager = new ObjectManager();
+    
+    gc.setWidth(800);
+    gc.setHeight(600);
     
     Player p = new Player(0, 0, "/sprites/playerShip3_red.png");
     p.setX(-p.getWidth() / 2);
@@ -40,6 +44,8 @@ public class PlayState extends State {
     gc.setScreenOffY(-gc.getHeight() / 2);
     
     gc.setDebug(true);
+    
+    lastSpawn = 0;
   }
   
   @Override
@@ -51,7 +57,26 @@ public class PlayState extends State {
   public void update(GameContainer gc, double dt) {
     manager.updateObjects(gc, dt);
     
-    
+    int asteroids = 0;
+    for (int i = 0; i < manager.numObjects() - 1; i++) {
+      if (manager.get(i).getTag().equals("asteroidH") &&
+          manager.get(i).onscreen(gc)) {
+        asteroids++;
+      }
+    }
+    if (asteroids < 1 && System.currentTimeMillis() - lastSpawn > 3000) {
+      double angle = Math.random() * 2 * Math.PI;
+      Player p = (Player) manager.findObject("player");
+      double dist = Math.max(gc.getWidth(), gc.getHeight());
+      double x = p.getX() + p.getWidth() / 2 + dist * Math.sin(angle);
+      double y = p.getY() + p.getHeight() / 2 - dist * Math.cos(angle);
+      Asteroid a = new Asteroid(x, y, "/sprites/meteors/meteorBrown_big1.png");
+      a.setRotation(angle + Math.PI);
+      a.giveImpulse(Math.random() * 200 + 100);
+      manager.addObject(a);
+      System.out.println("Adding asteroid");
+      lastSpawn = System.currentTimeMillis();
+    }
   }
 
   @Override

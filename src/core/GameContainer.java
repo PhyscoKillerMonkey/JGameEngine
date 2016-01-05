@@ -116,7 +116,7 @@ public class GameContainer implements Runnable {
       }
       
       if (shouldRender) {
-        renderer.clear();
+        //renderer.clear();
         
         game.render(this, renderer);
         
@@ -156,6 +156,8 @@ public class GameContainer implements Runnable {
 
   public void setWidth(int width) {
     this.width = width;
+    window.setWidth(width);
+    renderer.setWidth(this, width);
   }
 
   public int getHeight() {
@@ -164,6 +166,8 @@ public class GameContainer implements Runnable {
 
   public void setHeight(int height) {
     this.height = height;
+    window.setHeight(height);
+    renderer.setHeight(this, height);
   }
 
   public double getScale() {

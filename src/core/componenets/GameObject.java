@@ -48,6 +48,14 @@ public abstract class GameObject {
     return null;
   }
   
+  public boolean onscreen(GameContainer gc) {
+    if (x > gc.getScreenOffX() && x < gc.getScreenOffX() + gc.getWidth() &&
+        y > gc.getScreenOffY() && y < gc.getScreenOffY() + gc.getHeight()) {
+      return true;
+    }
+    return false;
+  }
+  
   public String getTag() {
     return tag;
   }

@@ -39,15 +39,19 @@ public class Asteroid extends Entity {
     switch (size) {
       case 0:
         setImg("/sprites/meteors/meteorBrown_small1.png");
+        setTag("asteroidS");
         break;
       case 1:
         setImg("/sprites/meteors/meteorBrown_med1.png");
+        setTag("asteroidM");
         break;
       case 2:
         setImg("/sprites/meteors/meteorBrown_big1.png");
+        setTag("asteroidB");
         break;
       case 3:
         setImg("/sprites/meteors/meteorBrown_huge1.png");
+        setTag("asteroidH");
         break;
     }
   }
@@ -67,20 +71,16 @@ public class Asteroid extends Entity {
       setDead(true);
     }
   }
-  
-  private boolean onscreen(GameContainer gc) {
-    if (x > gc.getScreenOffX() && x < gc.getScreenOffX() + gc.getWidth() &&
-        y > gc.getScreenOffY() && y < gc.getScreenOffY() + gc.getHeight()) {
-      return true;
-    }
-    return false;
-  }
 
   @Override
   public void componentEvent(GameContainer gc, String name, GameObject obj) {
     if (name.equals("collider") && obj.getTag().equals("laser") && onscreen(gc)) {
       split = true;
     }
+  }
+
+  public int getSize() {
+    return size;
   }
 
 }
