@@ -23,8 +23,10 @@ public class PlayState extends State {
   public PlayState(GameContainer gc) {
     manager = new ObjectManager();
     
-    gc.setWidth(800);
-    gc.setHeight(600);
+    gc.setWidth(960);
+    gc.setHeight(720);
+    
+    manager.addObject(new HUD(gc, "/sprites/playerLife3_red.png"));
     
     Player p = new Player(0, 0, "/sprites/playerShip3_red.png");
     p.setX(-p.getWidth() / 2);
@@ -114,5 +116,9 @@ public class PlayState extends State {
 
   public int getStageH() {
     return stageH;
+  }
+
+  public ObjectManager getManager() {
+    return manager;
   }
 }

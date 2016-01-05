@@ -17,6 +17,8 @@ public class Player extends Entity {
   private long flickerLast; // ms
   private boolean render;
   
+  private int score;
+  
   private int fireCooldown; // ms
   private long fireLast; // ms
 
@@ -34,6 +36,7 @@ public class Player extends Entity {
     render = true;
     fireCooldown = 200;
     fireLast = 0;
+    score = 0;
   }
   
   @Override
@@ -55,7 +58,7 @@ public class Player extends Entity {
     
     if (gc.getInput().isKeyDown(KeyEvent.VK_SPACE)
         && System.currentTimeMillis() - fireLast > fireCooldown) {
-      Laser l = new Laser(x+width/2, y+height/2, rotation, "/sprites/laserBlue07.png");
+      Laser l = new Laser(this, x+width/2, y+height/2, rotation, "/sprites/laserBlue07.png");
       l.giveImpulse(getSpeed() + 500);
       l.update(gc, dt);
       l.updateComponents(gc, dt);
@@ -110,4 +113,15 @@ public class Player extends Entity {
   public void dispose() {
   }
 
+  public int getLife() {
+    return life;
+  }
+
+  public int getScore() {
+    return score;
+  }
+
+  public void changeScore(int change) {
+    score += change;
+  }
 }

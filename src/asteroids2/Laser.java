@@ -4,12 +4,15 @@ import core.GameContainer;
 import core.componenets.GameObject;
 
 public class Laser extends Entity {
+  
+  private Player p;
 
-  public Laser(double x, double y, double rotation, String url) {
+  public Laser(Player p, double x, double y, double rotation, String url) {
     super(x, y, rotation, url);
     setX(getX() - getWidth()/2);
     setY(getY() - getHeight()/2);
     setTag("laser");
+    this.p = p;
   }
 
   @Override
@@ -28,9 +31,11 @@ public class Laser extends Entity {
 
   @Override
   public void componentEvent(GameContainer gc, String name, GameObject obj) {
-    System.out.println("laser");
     if (name.equalsIgnoreCase("collider") && obj.getTag().startsWith("asteroid")) {
       setDead(true);
+      
+      // Add to score
+      p.changeScore(4 - ((Asteroid) obj).getSize());
     }
   }
 }
