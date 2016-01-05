@@ -50,6 +50,8 @@ public class PlayState extends State {
   @Override
   public void update(GameContainer gc, double dt) {
     manager.updateObjects(gc, dt);
+    
+    
   }
 
   @Override
@@ -71,6 +73,8 @@ public class PlayState extends State {
       int sx = 5;
       int sy = 20;
       r.drawString("x: " + (int)p.getX() + " y: " + (int)p.getY(), sx, sy, f, c);
+      r.drawString("sX: " + (int)gc.getScreenOffX() + " sY: " 
+          + (int)gc.getScreenOffY(), sx, sy + 15, f, c);
     }
   }
 

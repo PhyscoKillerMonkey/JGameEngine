@@ -52,8 +52,8 @@ public class Collider extends Component {
     }
   }
   
-  public void collision(GameObject obj) {
-    this.obj.componentEvent(tag, obj);
+  public void collision(GameContainer gc, GameObject obj) {
+    this.obj.componentEvent(gc, tag, obj);
   }
 
   public double getX() {

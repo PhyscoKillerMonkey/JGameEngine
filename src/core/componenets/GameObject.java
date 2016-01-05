@@ -16,7 +16,7 @@ public abstract class GameObject {
   
   public abstract void update(GameContainer gc, double dt);
   public abstract void render(GameContainer gc, Renderer r);
-  public abstract void componentEvent(String name, GameObject obj);
+  public abstract void componentEvent(GameContainer gc, String name, GameObject obj);
   public abstract void dispose();
   
   public void updateComponents(GameContainer gc, double dt) {

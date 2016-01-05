@@ -44,7 +44,7 @@ public abstract class Entity extends GameObject {
   }
 
   @Override
-  public abstract void componentEvent(String name, GameObject obj);
+  public abstract void componentEvent(GameContainer gc, String name, GameObject obj);
 
   @Override
   public void dispose() {

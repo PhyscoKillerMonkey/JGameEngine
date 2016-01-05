@@ -95,7 +95,7 @@ public class Player extends Entity {
   }
 
   @Override
-  public void componentEvent(String name, GameObject obj) {
+  public void componentEvent(GameContainer gc, String name, GameObject obj) {
     if (name.equalsIgnoreCase("collider") && obj.getTag().equals("asteroid")) {
       if (System.currentTimeMillis() - invunerableStart > invunerableLength) {
         life--;

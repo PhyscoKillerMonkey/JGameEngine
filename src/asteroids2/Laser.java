@@ -27,7 +27,7 @@ public class Laser extends Entity {
   }
 
   @Override
-  public void componentEvent(String name, GameObject obj) {
+  public void componentEvent(GameContainer gc, String name, GameObject obj) {
     if (name.equalsIgnoreCase("collider") && obj.getTag().equals("asteroid")) {
       setDead(true);
     }

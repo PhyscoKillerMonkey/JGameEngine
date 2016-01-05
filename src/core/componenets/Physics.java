@@ -2,11 +2,13 @@ package core.componenets;
 
 import java.util.ArrayList;
 
+import core.GameContainer;
+
 public class Physics {
 
   private ArrayList<Collider> colliders = new ArrayList<>();
   
-  public void update() {
+  public void update(GameContainer gc) {
     for (int i = 0; i < colliders.size(); i++) {
       for (int j = i + 1; j < colliders.size(); j++) {
         Collider c0 = colliders.get(i);
@@ -25,16 +27,16 @@ public class Physics {
         
         if (c0.getType() == "point" && c1.getType() == "circle" &&
             dx * dx + dy * dy < r2 * r2) {
-          c0.collision(c1.getObject());
-          c1.collision(c0.getObject());
+          c0.collision(gc, c1.getObject());
+          c1.collision(gc, c0.getObject());
         } else if (c0.getType() == "circle" && c1.getType() == "point" &&
             dx * dx + dy * dy < r1 * r1) {
-          c0.collision(c1.getObject());
-          c1.collision(c0.getObject());
+          c0.collision(gc, c1.getObject());
+          c1.collision(gc, c0.getObject());
         } else if (c0.getType() == "circle" && c1.getType() == "circle" &&
             dx * dx + dy * dy < (r1+r2) * (r1+r2)) {
-          c0.collision(c1.getObject());
-          c1.collision(c0.getObject());
+          c0.collision(gc, c1.getObject());
+          c1.collision(gc, c0.getObject());
         }
       }
     }

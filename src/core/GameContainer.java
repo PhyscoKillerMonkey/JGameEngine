@@ -41,16 +41,16 @@ public class GameContainer implements Runnable {
       // Custom System.out.println
       PrintStream stream = new PrintStream(System.out) {
         public void println(String s) {
-          String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
-          String className = fullClassName.substring(fullClassName.lastIndexOf(".")+1);
-          String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
-          int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
-          super.println(className + "-" + methodName + " @ " + lineNumber + ": " + s);
+          if (debug) {
+            String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
+            String className = fullClassName.substring(fullClassName.lastIndexOf(".")+1);
+            String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+            int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
+            super.println("(" + className + "-" + methodName + " @ " + lineNumber + "): " + s); 
+          }
         }
       };
       System.setOut(stream);
-      
-      System.out.print("Hello there");
       
       thread = new Thread(this);
       thread.run();
@@ -93,17 +93,22 @@ public class GameContainer implements Runnable {
       
       while (timeLeft >= frameLength) {
         if (input.isKeyPressed(KeyEvent.VK_1)) {
-          System.out.println("(Un)locking framerate");
           lockFPS = !lockFPS;
+          if (lockFPS) {
+            System.out.println("Locking FPS");
+          } else {
+            System.out.println("Unlocking FPS");
+          }
         }
         if (input.isKeyPressed(KeyEvent.VK_2)) {
-          System.out.println("Enabling debug mode");
+          if (debug) System.out.println("Debug mode disabled");
           debug = !debug;
+          if (debug) System.out.println("Debug mode enabled");
         }
         
         game.update(this, timeLeft);
         input.update();
-        physics.update();
+        physics.update(this);
         
         timeLeft -= frameLength;
         shouldRender = true;
