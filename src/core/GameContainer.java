@@ -96,14 +96,16 @@ public class GameContainer implements Runnable {
       }
       
       if (shouldRender) {
+        renderer.clear();
+        
+        game.render(this, renderer);
+        
         if (debug) {
           Font f = new Font("Arial", Font.BOLD, 15);
-          Color c = new Color(200, 200, 200);
-          renderer.drawString("FPS: " + fps + " TPS: " + tps, 20, 20, f, c);
+          Color c = new Color(255, 255, 255);
+          renderer.drawString("FPS: " + fps + " TPS: " + tps, 5, 5, f, c);
         }
         
-        renderer.clear();
-        game.render(this, renderer);
         window.update();
         frames++;
       } else {
@@ -120,10 +122,6 @@ public class GameContainer implements Runnable {
         tps = ticks;
         frames = 0;
         ticks = 0;
-        
-        if (debug) {
-          System.out.println("FPS " + fps + " TPS " + tps);
-        }
       }
     }
   }

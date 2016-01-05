@@ -64,9 +64,10 @@ public class Renderer {
   }
   
   public void drawString(String string, int x, int y, Font font, Color color) {
+    int ascent = g.getFontMetrics(font).getAscent();
     g.setFont(font);
     g.setColor(color);
-    g.drawString(string, x, y);
+    g.drawString(string, x, ascent+y);
   }
 
   public void clear() {

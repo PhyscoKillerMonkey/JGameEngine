@@ -1,19 +1,13 @@
 package tests;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.Font;
 
 import core.AbstractGame;
 import core.GameContainer;
 import core.Renderer;
 
 public class EngineTest extends AbstractGame {
-  
-  private BufferedImage img;
-  private double x = 100;
-  private double y = 100;
 
   public static void main(String[] args) {
     GameContainer gc = new GameContainer(new EngineTest());
@@ -22,24 +16,19 @@ public class EngineTest extends AbstractGame {
 
   @Override
   public void init(GameContainer gc) {
-    try {
-      img = ImageIO.read(getClass().getResourceAsStream("/sprites/enemyBlack3.png"));
-    } catch (IOException e) {
-      System.out.println("Something went wrong");
-      e.printStackTrace();
-    }
+    
   }
 
   @Override
   public void update(GameContainer gc, double dt) {
-    x += 500*dt;
-    if (x > gc.getWidth()) {
-      x = -img.getWidth();
-    }
+    
   }
 
   @Override
   public void render(GameContainer gc, Renderer r) {
-    r.drawImage(gc, x, y, 2, img);
+    Font f = new Font("Arial", Font.BOLD, 15);
+    Color c = new Color(255, 0, 0);
+    r.drawString("HI", 0, 0, f, c);
+    r.drawString("Hello", 0, 15, f, c);
   }
 }
