@@ -25,7 +25,6 @@ public class Window {
     // Add insets to get the correct frame size
     frame.pack();
     insets = frame.getInsets();
-    System.out.println(insets);
     width = gc.getWidth();
     height = gc.getHeight();
     frame.setSize(insets.left + width + insets.right, 
@@ -53,5 +52,9 @@ public class Window {
   
   public JFrame getFrame() {
     return frame;
+  }
+
+  public Insets getInsets() {
+    return insets;
   }
 }

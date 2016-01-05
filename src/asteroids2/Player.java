@@ -16,6 +16,9 @@ public class Player extends Entity {
   private final int flickerLength; // ms
   private long flickerLast; // ms
   private boolean render;
+  
+  private int fireCooldown; // ms
+  private long fireLast; // ms
 
   public Player(double x, double y, String url) {
     super(x, y, 0, url);
@@ -29,6 +32,8 @@ public class Player extends Entity {
     flickerLength = 150;
     flickerLast = 0;
     render = true;
+    fireCooldown = 200;
+    fireLast = 0;
   }
   
   @Override
@@ -48,6 +53,14 @@ public class Player extends Entity {
     
     move(gc, dt);
     
+    if (gc.getInput().isKeyDown(KeyEvent.VK_SPACE)
+        && System.currentTimeMillis() - fireLast > fireCooldown) {
+      Laser l = new Laser(x+width/2, y+height/2, rotation, "/sprites/laserBlue07.png");
+      l.giveImpulse(getSpeed() + 500);
+      gc.getGame().peek().addObject(l);
+      fireLast = System.currentTimeMillis();
+    }
+    
     if (System.currentTimeMillis() - invunerableStart > invunerableLength) {
       invunerable = false;
       render = true;
@@ -66,7 +79,7 @@ public class Player extends Entity {
       render = !render;
     }
     if (render) {
-      r.drawImage(gc, x, y, rotation, getImg());
+      r.drawImage(gc, x - gc.getScreenOffX(), y - gc.getScreenOffY(), rotation, getImg());
     }
     
     renderComponents(gc, r);
@@ -74,7 +87,7 @@ public class Player extends Entity {
 
   @Override
   public void componentEvent(String name, GameObject obj) {
-    if (name.equalsIgnoreCase("collider")) {
+    if (name.equalsIgnoreCase("collider") && obj.getTag().equals("asteroid")) {
       if (System.currentTimeMillis() - invunerableStart > invunerableLength) {
         life--;
         System.out.println(life);

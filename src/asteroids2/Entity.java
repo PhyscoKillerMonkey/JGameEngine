@@ -39,7 +39,7 @@ public abstract class Entity extends GameObject {
 
   @Override
   public void render(GameContainer gc, Renderer r) {
-    r.drawImage(gc, x, y, rotation, img);
+    r.drawImage(gc, x - gc.getScreenOffX(), y - gc.getScreenOffY(), rotation, img);
     renderComponents(gc, r);
   }
 
@@ -103,4 +103,18 @@ public abstract class Entity extends GameObject {
     return img;
   }
 
+  public void setImg(String url) {
+    try {
+      img = ImageIO.read(Player.class.getResourceAsStream(url));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    width = img.getWidth();
+    height = img.getHeight();
+  }
+
+  public double getSpeed() {
+    return Math.abs(Math.sqrt(vx*vx + vy*vy));
+  }
 }

@@ -1,5 +1,7 @@
 package core;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 
 import core.componenets.Physics;
@@ -94,6 +96,12 @@ public class GameContainer implements Runnable {
       }
       
       if (shouldRender) {
+        if (debug) {
+          Font f = new Font("Arial", Font.BOLD, 15);
+          Color c = new Color(200, 200, 200);
+          renderer.drawString("FPS: " + fps + " TPS: " + tps, 20, 20, f, c);
+        }
+        
         renderer.clear();
         game.render(this, renderer);
         window.update();
@@ -174,6 +182,10 @@ public class GameContainer implements Runnable {
   
   public boolean getDebug() {
     return debug;
+  }
+  
+  public void setDebug(boolean b) {
+    debug = b;
   }
 
   public double getScreenOffX() {

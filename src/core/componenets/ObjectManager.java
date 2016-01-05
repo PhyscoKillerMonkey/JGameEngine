@@ -33,7 +33,9 @@ public class ObjectManager {
   }
   
   public void renderObjects(GameContainer gc, Renderer r) {
-    objects.forEach(obj -> obj.render(gc, r));
+    for (int i = objects.size() - 1; i >= 0; i--) {
+      objects.get(i).render(gc, r);
+    }
   }
   
   public void disposeObjects() {
