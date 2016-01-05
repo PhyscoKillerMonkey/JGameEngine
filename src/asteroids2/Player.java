@@ -57,8 +57,17 @@ public class Player extends Entity {
         && System.currentTimeMillis() - fireLast > fireCooldown) {
       Laser l = new Laser(x+width/2, y+height/2, rotation, "/sprites/laserBlue07.png");
       l.giveImpulse(getSpeed() + 500);
+      l.update(gc, dt);
+      l.updateComponents(gc, dt);
       gc.getGame().peek().addObject(l);
       fireLast = System.currentTimeMillis();
+    }
+    
+    if (gc.getInput().isKeyPressed(KeyEvent.VK_A)) {
+      System.out.println("Making asteroid");
+      Asteroid a = new Asteroid(x + 50, y, "/sprites/meteors/meteorBrown_big1.png");
+      a.setSize(3);
+      gc.getGame().peek().addObject(a);
     }
     
     if (System.currentTimeMillis() - invunerableStart > invunerableLength) {
@@ -90,7 +99,7 @@ public class Player extends Entity {
     if (name.equalsIgnoreCase("collider") && obj.getTag().equals("asteroid")) {
       if (System.currentTimeMillis() - invunerableStart > invunerableLength) {
         life--;
-        System.out.println(life);
+        System.out.println("Player life: " + life);
         invunerableStart = System.currentTimeMillis();
         invunerable = true;
       }

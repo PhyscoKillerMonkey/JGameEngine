@@ -66,10 +66,10 @@ public class PlayState extends State {
     // Render debug stuff
     if (gc.getDebug()) {
       Font f = new Font("Arial", Font.BOLD, 15);
-      Color c = new Color(200, 200, 200);
+      Color c = new Color(255, 255, 255);
       Player p = (Player) manager.findObject("player");
-      int sx = gc.getWindow().getInsets().left;
-      int sy = 25;
+      int sx = 5;
+      int sy = 20;
       r.drawString("x: " + (int)p.getX() + " y: " + (int)p.getY(), sx, sy, f, c);
     }
   }

@@ -19,10 +19,18 @@ public class Asteroid extends Entity {
 
   @Override
   public void update(GameContainer gc, double dt) {
+    move(gc, dt);
+    
+    PlayState p = (PlayState) gc.getGame().peek();
+    if (x < -p.getStageW()/2 || x > p.getStageW()/2 || 
+        y < -p.getStageH()/2 || y > p.getStageH()/2) {
+      setDead(true);
+      return;
+    }
+    
     if (split) {
       split(gc);
     }
-    move(gc, dt);
     updateComponents(gc, dt);
   }
   
@@ -45,19 +53,25 @@ public class Asteroid extends Entity {
   }
   
   public void split(GameContainer gc) {
-    setSize(size--);
-    for (int i = 0; i < 3; i++) {
-      Asteroid a = new Asteroid(x, y, "/sprites/meteors/meteorBrown_huge1.png");
-      a.setSize(size);
-      a.giveImpulse(100);
-      gc.getGame().peek().addObject(a);
+    split = false;
+    if (size > 0) {
+      setSize(size-1);
+      for (int i = 0; i < 1; i++) {
+        Asteroid a = new Asteroid(x, y, "/sprites/meteors/meteorBrown_huge1.png");
+        a.setSize(size);
+        a.setRotation(Math.random() * Math.PI * 2);
+        a.giveImpulse(50);
+        gc.getGame().peek().addObject(a);
+      }
+    } else {
+      setDead(true);
     }
   }
 
   @Override
   public void componentEvent(String name, GameObject obj) {
     if (name.equals("collider") && obj.getTag().equals("laser")) {
-      //split = true;
+      split = true;
     }
   }
 

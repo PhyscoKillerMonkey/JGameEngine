@@ -86,8 +86,8 @@ public class GameContainer implements Runnable {
           debug = !debug;
         }
         
-        input.update();
         game.update(this, timeLeft);
+        input.update();
         physics.update();
         
         timeLeft -= frameLength;

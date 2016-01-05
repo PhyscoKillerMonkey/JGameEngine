@@ -20,6 +20,7 @@ public class Laser extends Entity {
     if (x < -p.getStageW()/2 || x > p.getStageW()/2 || 
         y < -p.getStageH()/2 || y > p.getStageH()/2) {
       setDead(true);
+      return;
     }
     
     updateComponents(gc, dt);

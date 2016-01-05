@@ -24,11 +24,11 @@ public class Input implements KeyListener {
   }
   
   public boolean isKeyPressed(int keyCode) {
-    return keys[keyCode] && !keysLast[keyCode];
+    return (keys[keyCode] && !keysLast[keyCode]);
   }
   
   public boolean isKeyReleased(int keyCode) {
-    return !keys[keyCode] && keysLast[keyCode];
+    return (!keys[keyCode] && keysLast[keyCode]);
   }
   
   @Override
