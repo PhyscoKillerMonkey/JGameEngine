@@ -21,11 +21,13 @@ public class Asteroid extends Entity {
   public void update(GameContainer gc, double dt) {
     move(gc, dt);
     
-    PlayState p = (PlayState) gc.getGame().peek();
-    if (x < -p.getStageW()/2 || x > p.getStageW()/2 || 
-        y < -p.getStageH()/2 || y > p.getStageH()/2) {
-      setDead(true);
-      return;
+    if (gc.getGame().peek() instanceof PlayState) {
+      PlayState p = (PlayState) gc.getGame().peek();
+      if (x < -p.getStageW()/2 || x > p.getStageW()/2 || 
+          y < -p.getStageH()/2 || y > p.getStageH()/2) {
+        setDead(true);
+        return;
+      }
     }
     
     if (split) {

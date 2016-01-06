@@ -14,8 +14,9 @@ import core.componenets.State;
 
 public class DeadState extends State {
   
-  Font f;
-  Color c;
+  private Font f;
+  private Color c;
+  private boolean drawn;
   
   public DeadState() {
     // Load the font
@@ -27,23 +28,28 @@ public class DeadState extends State {
     }
     
     c = new Color(200, 200, 200);
+    
+    drawn = false;
   }
 
   @Override
   public void update(GameContainer gc, double dt) {
-    if (gc.getInput().isKeyPressed(KeyEvent.VK_SPACE)) {
-      gc.getGame().pop();
-    }
   }
 
   @Override
   public void render(GameContainer gc, Renderer r) {
-    int cX = gc.getWidth() / 2;
-    int cY = gc.getHeight() / 2;
-    f = f.deriveFont(Font.PLAIN, 50);
-    r.drawString("Game Over!", cX - 190, cY-100, f, c);
-    f = f.deriveFont(Font.PLAIN, 30);
-    r.drawString("Press SPACE to restart", cX - 240, cY + 50, f, c);
+    if (!drawn) {
+      r.fillRect(gc, 0, 0, gc.getWidth(), gc.getHeight(), new Color(0, 0, 0, 100));
+      
+      int cX = gc.getWidth() / 2;
+      int cY = gc.getHeight() / 2;
+      f = f.deriveFont(Font.PLAIN, 50);
+      r.drawString("Game Over!", cX - 190, cY-100, f, c);
+      f = f.deriveFont(Font.PLAIN, 30);
+      r.drawString("Press ENTER to restart", cX - 240, cY + 50, f, c);
+      
+      drawn = true;
+    }
   }
 
   @Override

@@ -1,5 +1,7 @@
 package asteroids2;
 
+import java.awt.event.KeyEvent;
+
 import core.AbstractGame;
 import core.GameContainer;
 import core.Renderer;
@@ -14,10 +16,15 @@ public class AsteroidsGM extends AbstractGame {
   @Override
   public void init(GameContainer gc) {
     push(new PlayState(gc));
+    push(new StartState(gc));
   }
 
   @Override
   public void update(GameContainer gc, double dt) {
+    if ((peek() instanceof StartState || peek() instanceof DeadState)
+        && gc.getInput().isKeyPressed(KeyEvent.VK_ENTER)) {
+      pop();
+    }
     peek().update(gc, dt);
   }
 
