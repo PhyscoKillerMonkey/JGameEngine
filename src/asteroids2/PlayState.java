@@ -2,6 +2,7 @@ package asteroids2;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -19,22 +20,16 @@ public class PlayState extends State {
   private BufferedImage bg;
   private int stageW, stageH;
   private long lastSpawn;
+  
+  private boolean restart;
+  private boolean gameOver;
 
   public PlayState(GameContainer gc) {
     manager = new ObjectManager();
     
     gc.setWidth(960);
     gc.setHeight(720);
-    
-    manager.addObject(new HUD(gc, "/sprites/playerLife3_red.png"));
-    
-    Player p = new Player(0, 0, "/sprites/playerShip3_red.png");
-    p.setX(-p.getWidth() / 2);
-    p.setY(-p.getHeight() / 2);
-    manager.addObject(p);
-    
-    manager.addObject(new Asteroid(300, 300, "/sprites/meteors/meteorBrown_big1.png"));
-    
+
     // Load the background image
     try {
       bg = ImageIO.read(Player.class.getResourceAsStream("/sprites/darkPurple.png"));
@@ -45,9 +40,24 @@ public class PlayState extends State {
     gc.setScreenOffX(-gc.getWidth() / 2);
     gc.setScreenOffY(-gc.getHeight() / 2);
     
-    gc.setDebug(true);
+    gc.setDebug(false);
     
+    make(gc);
+  }
+  
+  public void make(GameContainer gc) {
+    manager.empty();
+    
+    manager.addObject(new HUD(gc, "/sprites/playerLife3_red.png"));
+    
+    Player p = new Player(0, 0, "/sprites/playerShip3_red.png");
+    p.setX(-p.getWidth() / 2);
+    p.setY(-p.getHeight() / 2);
+    manager.addObject(p);
+        
     lastSpawn = 0;
+    restart = false;
+    gameOver = false;
   }
   
   @Override
@@ -57,6 +67,15 @@ public class PlayState extends State {
   
   @Override
   public void update(GameContainer gc, double dt) {
+    if (restart) {
+      make(gc);
+    }
+    if (gameOver) {
+      restart = true;
+      gc.getGame().push(new DeadState());
+      return;
+    }
+    
     manager.updateObjects(gc, dt);
     
     int asteroids = 0;
@@ -78,6 +97,11 @@ public class PlayState extends State {
       manager.addObject(a);
       System.out.println("Adding asteroid");
       lastSpawn = System.currentTimeMillis();
+    }
+    
+    if (gc.getInput().isKeyPressed(KeyEvent.VK_P)) {
+      restart = true;
+      gc.getGame().push(new DeadState());
     }
   }
 
@@ -120,5 +144,9 @@ public class PlayState extends State {
 
   public ObjectManager getManager() {
     return manager;
+  }
+
+  public void setGameOver(boolean gameOver) {
+    this.gameOver = gameOver;
   }
 }

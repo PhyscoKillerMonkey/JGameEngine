@@ -16,6 +16,14 @@ public abstract class AbstractGame {
     return states.peek();
   }
   
+  public State get(int i) {
+    return states.get(i);
+  }
+  
+  public State getPrevious() {
+    return states.get(states.size() - 2);
+  }
+  
   public void push(State s) {
     states.push(s);
   }

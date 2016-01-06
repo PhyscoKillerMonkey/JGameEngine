@@ -41,6 +41,10 @@ public class Player extends Entity {
   
   @Override
   public void update(GameContainer gc, double dt) {
+    if (life < 0) { 
+      ((PlayState)(gc.getGame().peek())).setGameOver(true);
+    }
+    
     double rSpeed = 0.1;
     
     if (gc.getInput().isKeyDown(KeyEvent.VK_UP)) {

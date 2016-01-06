@@ -30,6 +30,10 @@ public class ObjectManager {
     return objects.get(i);
   }
   
+  public void empty() {
+    objects = new ArrayList<>();
+  }
+  
   public void updateObjects(GameContainer gc, double dt) {
     for (int i = objects.size() - 1; i >= 0; i--) {
       objects.get(i).update(gc, dt);
