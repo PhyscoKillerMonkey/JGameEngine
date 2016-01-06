@@ -2,7 +2,6 @@ package asteroids2;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -72,7 +71,7 @@ public class PlayState extends State {
     }
     if (gameOver) {
       restart = true;
-      gc.getGame().push(new DeadState());
+      gc.getGame().push(new DeadState(gc));
       return;
     }
     
@@ -97,11 +96,6 @@ public class PlayState extends State {
       manager.addObject(a);
       System.out.println("Adding asteroid");
       lastSpawn = System.currentTimeMillis();
-    }
-    
-    if (gc.getInput().isKeyPressed(KeyEvent.VK_P)) {
-      restart = true;
-      gc.getGame().push(new DeadState());
     }
   }
 
@@ -148,5 +142,9 @@ public class PlayState extends State {
 
   public void setGameOver(boolean gameOver) {
     this.gameOver = gameOver;
+  }
+
+  public void setRestart(boolean restart) {
+    this.restart = restart;
   }
 }

@@ -11,14 +11,14 @@ import core.Renderer;
 import core.componenets.GameObject;
 import core.componenets.State;
 
-public class DeadState extends State {
+public class PausedState extends State {
   
   private Font f;
   private Color c;
   private boolean drawn;
   private int width, height;
   
-  public DeadState(GameContainer gc) {
+  public PausedState(GameContainer gc) {
     // Load the font
     InputStream iStream = getClass().getResourceAsStream("/kenvector_future.ttf");
     try {
@@ -42,11 +42,11 @@ public class DeadState extends State {
   public void render(GameContainer gc, Renderer r) {
     if (!drawn) {
       r.fillRect(gc, 0, 0, width, height, new Color(0, 0, 0, 100));
-
-      f = f.deriveFont(Font.PLAIN, 50);
-      r.drawStringCentered("Game Over!", width/2, height/2 - 150, f, c);
-      f = f.deriveFont(Font.PLAIN, 30);
-      r.drawStringCentered("Press ENTER to restart", width/2, height/2 + 100, f, c);
+      
+      f = f.deriveFont(Font.PLAIN, 60);
+      r.drawStringCentered("Game Paused", width/2, height/2 - 60, f, c);
+      f = f.deriveFont(Font.PLAIN, 40);
+      r.drawStringCentered("Press enter to resume", width/2, height / 2, f, c);
       
       drawn = true;
     }

@@ -25,6 +25,13 @@ public class AsteroidsGM extends AbstractGame {
         && gc.getInput().isKeyPressed(KeyEvent.VK_ENTER)) {
       pop();
     }
+    if (peek() instanceof PlayState && gc.getInput().isKeyPressed(KeyEvent.VK_P)) {
+      push(new PausedState(gc));
+    }
+    if (peek() instanceof PausedState && gc.getInput().isKeyPressed(KeyEvent.VK_ENTER)) {
+      pop();
+    }
+    
     peek().update(gc, dt);
   }
 
