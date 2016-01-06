@@ -69,6 +69,11 @@ public class Renderer {
     g.setColor(color);
     g.drawString(string, x, ascent+y);
   }
+  
+  public void drawStringCentered(String string, int x, int y, Font font, Color color) {
+    int w = g.getFontMetrics(font).stringWidth(string);
+    drawString(string, x - w/2, y, font, color);
+  }
 
   public void clear() {
     g.clearRect(0, 0, width, height);
